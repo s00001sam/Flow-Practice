@@ -1,4 +1,6 @@
 package com.sam.flowpractice.hilt.module
+import com.sam.flowpractice.hilt.usecase.GetSingleString
+import com.sam.flowpractice.repository.BaseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -8,6 +10,6 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Module
 class UseCaseModule {
 
-//    @Provides
-//    fun provideGetNearbyFoodsData(repository: Repository) = GetNearbyFoodsData(repository)
+    @Provides
+    fun provideGetSingleStr(repository: BaseRepository) = GetSingleString(repository)
 }

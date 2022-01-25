@@ -1,5 +1,7 @@
 package com.sam.flowpractice.repository.datasourse
 
-interface DataSource {
+import kotlinx.coroutines.flow.Flow
 
+interface DataSource {
+    suspend fun getSingleStr(s : String): Flow<String>
 }
