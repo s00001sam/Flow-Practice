@@ -10,6 +10,8 @@ class LocalDataSource : DataSource {
     override suspend fun getSingleStr(s: String) = flow {
         delay(2000)
         emit(s)
+        delay(5000)
+        emit(s)
     }.flowOn(Dispatchers.IO)
 
 }

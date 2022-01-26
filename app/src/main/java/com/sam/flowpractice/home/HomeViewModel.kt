@@ -1,5 +1,6 @@
 package com.sam.flowpractice.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sam.flowpractice.hilt.usecase.GetSingleString
@@ -24,7 +25,10 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             getSingleString.getFlow("hello word!")
                 .onStart { _singleStrResult.value = State.LoadingState }
-                .collect { _singleStrResult.value = State.DataState(it) }
+                .collect {
+                    Log.d("sam","sam00 it=$it")
+                    _singleStrResult.value = State.DataState(it)
+                }
         }
     }
 

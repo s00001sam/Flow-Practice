@@ -7,11 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.sam.flowpractice.Util.collectLastFlowStarted
+import com.sam.flowpractice.Util.launchWhenStarted
 import com.sam.flowpractice.Util.toast
 import com.sam.flowpractice.databinding.FragmentHomeBinding
 import com.sam.flowpractice.repository.statehandle.State
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -51,6 +59,15 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.singleStrResult.onEach {
+                when(it) {
+                    is State.LoadingState -> showLoading()
+                    is State.DataState -> {
+                        Log.d("sam","sam00 new=${it.data}")
+                    }
+                }
+            }.launchWhenStarted(viewLifecycleOwner)
     }
 
     private fun showLoading() {
