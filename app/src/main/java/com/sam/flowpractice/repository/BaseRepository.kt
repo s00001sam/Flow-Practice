@@ -11,4 +11,8 @@ class BaseRepository (
                 return localDataSource.getSingleStr(s)
         }
 
+        override suspend fun getMutliInt(list: List<Int>): Flow<Int> {
+                return localDataSource.getMutliInt(list)
+        }
+
 }

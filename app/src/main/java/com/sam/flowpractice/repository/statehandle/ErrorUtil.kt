@@ -6,7 +6,7 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 object ErrorUtil {
-    fun resolveError(e: Exception): State.ErrorState {
+    fun resolveError(e: Throwable): State.ErrorState {
         var error = e
 
         when (e) {

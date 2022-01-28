@@ -13,6 +13,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 object Util {
+    fun String.toast() {
+        Toast.makeText(MyApplication.appContext, this, Toast.LENGTH_SHORT).show()
+    }
+
     fun <T> Fragment.collectLastFlowStarted(flow: Flow<T>, action: suspend (value: T) -> Unit) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             flow.collectLatest(action)
@@ -35,9 +39,5 @@ object Util {
                 }
             }
         }
-    }
-
-    fun String.toast() {
-        Toast.makeText(MyApplication.appContext, this, Toast.LENGTH_SHORT).show()
     }
 }

@@ -1,28 +1,18 @@
 package com.sam.flowpractice.home
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import com.sam.flowpractice.Util.collectLastFlowStarted
-import com.sam.flowpractice.Util.launchWhenStarted
+import com.sam.flowpractice.BaseFragment
 import com.sam.flowpractice.Util.toast
 import com.sam.flowpractice.databinding.FragmentHomeBinding
-import com.sam.flowpractice.repository.statehandle.State
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.FlowPreview
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
@@ -37,44 +27,59 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initCollectFlow()
     }
 
+    @FlowPreview
     private fun initView() {
         binding.btnSingleStr.setOnClickListener {
             viewModel.getSingleString()
         }
+        binding.btnSingleStr2.setOnClickListener {
+            viewModel.getSingleString2()
+        }
+        binding.btnInts.setOnClickListener {
+            viewModel.getInts()
+        }
+        binding.btnIntsLatest.setOnClickListener {
+            viewModel.getIntsLatest()
+        }
+        binding.btnIntsBuffer.setOnClickListener {
+            viewModel.getIntsBuffer()
+        }
+        binding.btnIntsConflate.setOnClickListener {
+            viewModel.getIntsConflate()
+        }
+        binding.btnIntsMap.setOnClickListener {
+            viewModel.getIntsMap()
+        }
+        binding.btnIntsZip.setOnClickListener {
+            viewModel.getIntsZip()
+        }
+        binding.btnIntsCombine.setOnClickListener {
+            viewModel.getIntsCombine()
+        }
+        binding.btnIntsFilter.setOnClickListener {
+            viewModel.getIntsFilter()
+        }
+        binding.btnIntsTransform.setOnClickListener {
+            viewModel.getIntsTransform()
+        }
+        binding.btnIntsFlatMapConcat.setOnClickListener {
+            viewModel.getIntsflatMapConcat()
+        }
+        binding.btnIntsFlatMapMerge.setOnClickListener {
+            viewModel.getIntsflatMapMerge()
+        }
     }
 
     private fun initCollectFlow() {
-        collectLastFlowStarted(viewModel.singleStrResult) {
-            when(it) {
-                is State.LoadingState -> showLoading()
-                is State.DataState -> {
-                    dismissLoading()
-                    it.data.toast()
-                }
-            }
+        viewModel.strResult.collectDataState {
+            it.toast()
         }
-
-        viewModel.singleStrResult.onEach {
-                when(it) {
-                    is State.LoadingState -> showLoading()
-                    is State.DataState -> {
-                        Log.d("sam","sam00 new=${it.data}")
-                    }
-                }
-            }.launchWhenStarted(viewLifecycleOwner)
-    }
-
-    private fun showLoading() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun dismissLoading() {
-        binding.progressBar.visibility = View.GONE
     }
 }

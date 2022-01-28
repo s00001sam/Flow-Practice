@@ -15,25 +15,131 @@
         android:padding="8dp"
         tools:context=".home.HomeFragment">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_single_str"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="取一個字串"
+            android:orientation="vertical"
+            android:layout_margin="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_single_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hello word"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_single_str2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="by single()"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="所有數字"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_latest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最後數字"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_buffer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="數字 buffer"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_conflate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="數字 conflate"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello數字"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_zip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="組合 zip"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_combine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="組合 combine"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="偶數"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_transform"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重複偶數"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_flatMapConcat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重複數字"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_ints_flatMapMerge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重複順序數字"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

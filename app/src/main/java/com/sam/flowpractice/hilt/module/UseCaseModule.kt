@@ -1,4 +1,5 @@
 package com.sam.flowpractice.hilt.module
+import com.sam.flowpractice.hilt.usecase.GetMutliInt
 import com.sam.flowpractice.hilt.usecase.GetSingleString
 import com.sam.flowpractice.repository.BaseRepository
 import dagger.Module
@@ -12,4 +13,7 @@ class UseCaseModule {
 
     @Provides
     fun provideGetSingleStr(repository: BaseRepository) = GetSingleString(repository)
+
+    @Provides
+    fun provideGetMutliInt(repository: BaseRepository) = GetMutliInt(repository)
 }
