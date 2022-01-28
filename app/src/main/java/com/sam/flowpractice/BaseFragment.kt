@@ -1,6 +1,7 @@
 package com.sam.flowpractice
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,12 @@ open class BaseFragment : Fragment() {
                 is State.DataState<*> -> {
                     dismissLoading()
                     (it.data as? T)?.let { data -> doSomething.invoke(data) }
+                }
+                is State.ErrorState -> {
+                    Log.d("sam", "sam00 error=${it.exception.localizedMessage}")
+                }
+                else -> {
+                    dismissLoading()
                 }
             }
         }.launchWhenStarted(viewLifecycleOwner)

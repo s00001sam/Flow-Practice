@@ -15,4 +15,8 @@ class BaseRepository (
                 return localDataSource.getMutliInt(list)
         }
 
+        override suspend fun double(i: Int): Flow<Int> {
+                return localDataSource.double(i)
+        }
+
 }

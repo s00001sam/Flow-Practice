@@ -3,6 +3,7 @@ package com.sam.flowpractice.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sam.flowpractice.hilt.usecase.GetDouble
 import com.sam.flowpractice.hilt.usecase.GetMutliInt
 import com.sam.flowpractice.hilt.usecase.GetSingleString
 import com.sam.flowpractice.repository.statehandle.ErrorUtil
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getSingleString: GetSingleString,
-    private val getMutliInt: GetMutliInt
+    private val getMutliInt: GetMutliInt,
+    private val getDouble: GetDouble
 ): ViewModel() {
 
     private val listInt = listOf(1, 2, 3, 4, 5)
@@ -27,48 +29,61 @@ class HomeViewModel @Inject constructor(
 
     fun getSingleString() {
         viewModelScope.launch {
-            getSingleString.getFlow("hello word!")
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    _strResult.value = State.DataState(it)
-                }
+            try {
+                getSingleString.getFlow("hello word!")
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        _strResult.value = State.DataState(it)
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
+
         }
     }
 
     // by single() 只能取得單一結果
     fun getSingleString2() {
         viewModelScope.launch {
-            val singleResult = getSingleString.getFlow("123")
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .single()
-            _strResult.value = State.DataState(singleResult)
+            try {
+                val singleResult = getSingleString.getFlow("123")
+                    .onStart { _strResult.value = State.LoadingState }
+                    .single()
+                _strResult.value = State.DataState(singleResult)
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
     fun getInts() {
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    _strResult.value = State.DataState(it.toString())
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        _strResult.value = State.DataState(it.toString())
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
     //collectLatest 有耗時時，且耗時超過下一個值的發射時間，就會取最後一個了，不然等同 collect
     fun getIntsLatest() {
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collectLatest {
-                    delay(1100)
-                    _strResult.value = State.DataState(it.toString())
-                    Log.d("sam","sam00 int last=$it")
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collectLatest {
+                        delay(1100)
+                        _strResult.value = State.DataState(it.toString())
+                        Log.d("sam","sam00 int last=$it")
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
@@ -81,15 +96,18 @@ class HomeViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .buffer()
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    delay(1000)
-                    _strResult.value = State.DataState(it.toString())
-                    Log.d("sam","sam00 int buffer=$it")
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .buffer()
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        delay(1000)
+                        _strResult.value = State.DataState(it.toString())
+                        Log.d("sam","sam00 int buffer=$it")
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
@@ -102,119 +120,143 @@ class HomeViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .conflate()
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    delay(3000)
-                    _strResult.value = State.DataState(it.toString())
-                    Log.d("sam","sam00 int conflate=$it")
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .conflate()
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        delay(3000)
+                        _strResult.value = State.DataState(it.toString())
+                        Log.d("sam","sam00 int conflate=$it")
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
     fun getIntsMap() {
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .map { "hello $it" }
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    _strResult.value = State.DataState(it)
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .map { "hello $it" }
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        _strResult.value = State.DataState(it)
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
     fun getIntsZip() {
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .zip(getSingleString.getFlow("hello word!")) { i, s ->
-                    val result = "$i $s"
-                    result
-                }
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    Log.d("sam","sam00 int zip=$it")
-                    _strResult.value = State.DataState(it)
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .zip(getSingleString.getFlow("hello word!")) { i, s ->
+                        val result = "$i $s"
+                        result
+                    }
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        Log.d("sam","sam00 int zip=$it")
+                        _strResult.value = State.DataState(it)
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
     fun getIntsCombine() {
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .combine(getSingleString.getFlow("hello word!")) { i, s ->
-                    val result = "$i $s"
-                    result
-                }
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    Log.d("sam","sam00 int combine=$it")
-                    _strResult.value = State.DataState(it)
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .combine(getSingleString.getFlow("hello word!")) { i, s ->
+                        val result = "$i $s"
+                        result
+                    }
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        Log.d("sam","sam00 int combine=$it")
+                        _strResult.value = State.DataState(it)
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
     fun getIntsFilter() {
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .filter { it % 2 == 0 }
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    _strResult.value = State.DataState(it.toString())
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .filter { it % 2 == 0 }
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        _strResult.value = State.DataState(it.toString())
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
     fun getIntsTransform() {
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .transform {
-                    if (it % 2 == 0) {
-                        emit(it)
-                        emit(it)
+            try {
+                getMutliInt.getFlow(listInt)
+                    .transform {
+                        if (it % 2 == 0) {
+                            emit(it)
+                            emit(it)
+                        }
                     }
-                }
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    _strResult.value = State.DataState(it.toString())
-                    _strResult.value = State.NothingState
-                }
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        _strResult.value = State.DataState(it.toString())
+                        _strResult.value = State.NothingState
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
     @FlowPreview
     fun getIntsflatMapConcat() {
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .flatMapConcat { double(it) }
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    Log.d("sam","sam00 flatMapConcat=$it")
-                    _strResult.value = State.DataState(it.toString())
-                    _strResult.value = State.NothingState
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .flatMapConcat { getDouble.getFlow(it) }
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        Log.d("sam","sam00 flatMapConcat=$it")
+                        _strResult.value = State.DataState(it.toString())
+                        _strResult.value = State.NothingState
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
     @FlowPreview
     fun getIntsflatMapMerge() {
         viewModelScope.launch {
-            getMutliInt.getFlow(listInt)
-                .flatMapMerge { double(it) }
-                .onStart { _strResult.value = State.LoadingState }
-                .catch { e -> _strResult.value = ErrorUtil.resolveError(e) }
-                .collect {
-                    Log.d("sam","sam00 flatMapMerge=$it")
-                    _strResult.value = State.DataState(it.toString())
-                    _strResult.value = State.NothingState
-                }
+            try {
+                getMutliInt.getFlow(listInt)
+                    .flatMapMerge { getDouble.getFlow(it) }
+                    .onStart { _strResult.value = State.LoadingState }
+                    .collect {
+                        Log.d("sam","sam00 flatMapMerge=$it")
+                        _strResult.value = State.DataState(it.toString())
+                        _strResult.value = State.NothingState
+                    }
+            } catch (e: Exception) {
+                _strResult.value = ErrorUtil.resolveError(e)
+            }
         }
     }
 
@@ -246,12 +288,6 @@ class HomeViewModel @Inject constructor(
                 _strResult.value = ErrorUtil.resolveError(e)
             }
         }
-    }
-
-    fun double(value: Int) = flow {
-        emit(value)
-        delay(2000)
-        emit(value)
     }
 
 }

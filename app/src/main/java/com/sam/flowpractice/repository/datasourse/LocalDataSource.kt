@@ -18,6 +18,12 @@ class LocalDataSource : DataSource {
             delay(1000)
             emit(i)
         }
-    }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun double(i: Int): Flow<Int> = flow {
+        emit(i)
+        delay(2000)
+        emit(i)
+    }.flowOn(Dispatchers.IO)
 
 }
