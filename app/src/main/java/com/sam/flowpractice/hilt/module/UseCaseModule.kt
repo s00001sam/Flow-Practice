@@ -1,4 +1,5 @@
 package com.sam.flowpractice.hilt.module
+import com.sam.flowpractice.hilt.usecase.CheckNetWork
 import com.sam.flowpractice.hilt.usecase.GetDouble
 import com.sam.flowpractice.hilt.usecase.GetMutliInt
 import com.sam.flowpractice.hilt.usecase.GetSingleString
@@ -20,4 +21,7 @@ class UseCaseModule {
 
     @Provides
     fun provideGetDouble(repository: BaseRepository) = GetDouble(repository)
+
+    @Provides
+    fun provideCheckNetWork(repository: BaseRepository) = CheckNetWork(repository)
 }

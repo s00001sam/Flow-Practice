@@ -3,6 +3,7 @@ package com.sam.flowpractice.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sam.flowpractice.hilt.usecase.CheckNetWork
 import com.sam.flowpractice.hilt.usecase.GetDouble
 import com.sam.flowpractice.hilt.usecase.GetMutliInt
 import com.sam.flowpractice.hilt.usecase.GetSingleString
@@ -19,13 +20,29 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getSingleString: GetSingleString,
     private val getMutliInt: GetMutliInt,
-    private val getDouble: GetDouble
+    private val getDouble: GetDouble,
+    private val checkNetWork: CheckNetWork
 ): ViewModel() {
 
     private val listInt = listOf(1, 2, 3, 4, 5)
 
     private val _strResult = MutableStateFlow<State<String>>(State.NothingState)
     val strResult: StateFlow<State<String>> = _strResult
+
+    private val _netResult = MutableStateFlow<State<String>>(State.NothingState)
+    val netResult: StateFlow<State<String>> = _netResult
+
+    fun checkNet() {
+        viewModelScope.launch {
+            try {
+                checkNetWork.getFlow(null).collect {
+                    _netResult.value = State.DataState(it)
+                }
+            } catch (e: Exception) {
+                _netResult.value = ErrorUtil.resolveError(e)
+            }
+        }
+    }
 
     fun getSingleString() {
         viewModelScope.launch {

@@ -8,4 +8,6 @@ interface Repository {
     suspend fun getMutliInt(list: List<Int>): Flow<Int>
 
     suspend fun double(i: Int): Flow<Int>
+
+    suspend fun checkNetWork(): Flow<String>
 }

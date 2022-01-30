@@ -19,4 +19,8 @@ class BaseRepository (
                 return localDataSource.double(i)
         }
 
+        override suspend fun checkNetWork(): Flow<String> {
+                return localDataSource.checkNetWork()
+        }
+
 }

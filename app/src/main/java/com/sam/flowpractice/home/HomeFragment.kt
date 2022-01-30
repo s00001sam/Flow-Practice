@@ -30,6 +30,7 @@ class HomeFragment : BaseFragment() {
     @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.checkNet()
         initView()
         initCollectFlow()
     }
@@ -80,6 +81,10 @@ class HomeFragment : BaseFragment() {
     private fun initCollectFlow() {
         viewModel.strResult.collectDataState {
             it.toast()
+        }
+
+        viewModel.netResult.collectDataState {
+            binding.tvCallbackNet.text = it
         }
     }
 }
