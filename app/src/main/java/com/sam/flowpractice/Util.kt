@@ -1,6 +1,5 @@
 package com.sam.flowpractice
 
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -35,7 +34,7 @@ object Util {
                 try {
                     this@launchWhenStarted.collect()
                 }catch (t: Throwable){
-                    Log.d("sam","sam00 throwable=${t.localizedMessage}")
+                    Logger.d("sam00 throwable=${t.localizedMessage}")
                 }
             }
         }

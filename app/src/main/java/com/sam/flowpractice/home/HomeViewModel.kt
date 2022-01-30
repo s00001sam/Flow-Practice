@@ -1,8 +1,8 @@
 package com.sam.flowpractice.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sam.flowpractice.Logger
 import com.sam.flowpractice.hilt.usecase.CheckNetWork
 import com.sam.flowpractice.hilt.usecase.GetDouble
 import com.sam.flowpractice.hilt.usecase.GetMutliInt
@@ -96,7 +96,7 @@ class HomeViewModel @Inject constructor(
                     .collectLatest {
                         delay(1100)
                         _strResult.value = State.DataState(it.toString())
-                        Log.d("sam","sam00 int last=$it")
+                        Logger.d("sam00 int last=$it")
                     }
             } catch (e: Exception) {
                 _strResult.value = ErrorUtil.resolveError(e)
@@ -109,7 +109,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             for(i in 1..8) {
                 delay(1000)
-                Log.d("sam","sam00 first=$i")
+                Logger.d("sam00 first=$i")
             }
         }
         viewModelScope.launch {
@@ -120,7 +120,7 @@ class HomeViewModel @Inject constructor(
                     .collect {
                         delay(1000)
                         _strResult.value = State.DataState(it.toString())
-                        Log.d("sam","sam00 int buffer=$it")
+                        Logger.d("sam00 int buffer=$it")
                     }
             } catch (e: Exception) {
                 _strResult.value = ErrorUtil.resolveError(e)
@@ -133,7 +133,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             for(i in 1..8) {
                 delay(1000)
-                Log.d("sam","sam00 first=$i")
+                Logger.d("sam00 first=$i")
             }
         }
         viewModelScope.launch {
@@ -144,7 +144,7 @@ class HomeViewModel @Inject constructor(
                     .collect {
                         delay(3000)
                         _strResult.value = State.DataState(it.toString())
-                        Log.d("sam","sam00 int conflate=$it")
+                        Logger.d("sam00 int conflate=$it")
                     }
             } catch (e: Exception) {
                 _strResult.value = ErrorUtil.resolveError(e)
@@ -177,7 +177,7 @@ class HomeViewModel @Inject constructor(
                     }
                     .onStart { _strResult.value = State.LoadingState }
                     .collect {
-                        Log.d("sam","sam00 int zip=$it")
+                        Logger.d("sam00 int zip=$it")
                         _strResult.value = State.DataState(it)
                     }
             } catch (e: Exception) {
@@ -196,7 +196,7 @@ class HomeViewModel @Inject constructor(
                     }
                     .onStart { _strResult.value = State.LoadingState }
                     .collect {
-                        Log.d("sam","sam00 int combine=$it")
+                        Logger.d("sam00 int combine=$it")
                         _strResult.value = State.DataState(it)
                     }
             } catch (e: Exception) {
@@ -249,7 +249,7 @@ class HomeViewModel @Inject constructor(
                     .flatMapConcat { getDouble.getFlow(it) }
                     .onStart { _strResult.value = State.LoadingState }
                     .collect {
-                        Log.d("sam","sam00 flatMapConcat=$it")
+                        Logger.d("sam00 flatMapConcat=$it")
                         _strResult.value = State.DataState(it.toString())
                         _strResult.value = State.NothingState
                     }
@@ -267,7 +267,7 @@ class HomeViewModel @Inject constructor(
                     .flatMapMerge { getDouble.getFlow(it) }
                     .onStart { _strResult.value = State.LoadingState }
                     .collect {
-                        Log.d("sam","sam00 flatMapMerge=$it")
+                        Logger.d("sam00 flatMapMerge=$it")
                         _strResult.value = State.DataState(it.toString())
                         _strResult.value = State.NothingState
                     }
@@ -283,7 +283,7 @@ class HomeViewModel @Inject constructor(
             try {
                 getMutliInt.getFlow(listInt)
                     .reduce { accumulator, value ->
-                        Log.d("sam","sam00 reduce accumulator=$accumulator, value=$value")
+                        Logger.d("sam00 reduce accumulator=$accumulator, value=$value")
                         accumulator + value
                     }
             } catch (e: Exception) {
@@ -298,7 +298,7 @@ class HomeViewModel @Inject constructor(
             try {
                 getMutliInt.getFlow(listInt)
                     .fold(100) { accumulator, value ->
-                        Log.d("sam","sam00 fold accumulator=$accumulator, value=$value")
+                        Logger.d("sam00 fold accumulator=$accumulator, value=$value")
                         accumulator + value
                     }
             } catch (e: Exception) {

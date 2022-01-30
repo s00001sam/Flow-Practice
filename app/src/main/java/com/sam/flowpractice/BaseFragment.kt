@@ -1,11 +1,6 @@
 package com.sam.flowpractice
 
-import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.sam.flowpractice.Util.launchWhenStarted
 import com.sam.flowpractice.repository.statehandle.State
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +25,7 @@ open class BaseFragment : Fragment() {
                     (it.data as? T)?.let { data -> doSomething.invoke(data) }
                 }
                 is State.ErrorState -> {
-                    Log.d("sam", "sam00 error=${it.exception.localizedMessage}")
+                    Logger.e("sam00 error=${it.exception.localizedMessage}")
                 }
                 else -> {
                     dismissLoading()
